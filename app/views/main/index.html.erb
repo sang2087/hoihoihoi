@@ -1,0 +1,51 @@
+<input type="text" id="write" value=""/> 
+<button id="add">확인</button>
+<div id="read">
+  <%Note.all.each do |note|%>
+  <div class="item" note_id="<%=note.id%>">
+    <%=note.content%>
+  </div>
+  <%end%>
+</div>
+<script type="text/javascript" charset="utf-8">
+  $(function(){
+    $("#add").on("click",function(){
+      var text = $("#write").val()
+      $.ajax({
+        url: "/api/write.json",
+        type: "POST",
+        data: {
+          tt : text
+        },
+        success: function(data) {
+          d = data;
+          console.log(data);
+          $("#write").val("")
+          var html = "<div class='item' note_id='"+data[0]+"'>"
+          html+=data[1]
+          html+="</div>"
+          $("#read").append(html)
+        }
+      })
+    })
+    $(document).on("click", ".item", function(){
+      var text = prompt()
+      var note_id = $(this).attr("note_id")
+      var this_selector = $(this)
+      $.ajax({
+        url: "/api/update.json",
+        type: "POST",
+        data: {
+          tt : text,
+          note_id : note_id
+        },
+        success: function(data) {
+          if(data == true){
+            this_selector.html(text)
+          }
+        }
+      })
+
+    })
+  })
+</script>
