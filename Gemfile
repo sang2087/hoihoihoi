@@ -1,4 +1,5 @@
 source 'https://rubygems.org'
+#####
 
 #파싱하려고 가지고 온 애 https://github.com/sparklemotion/nokogiri
 gem 'nokogiri'
